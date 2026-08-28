@@ -1,45 +1,111 @@
 import { PLANE_IMAGE } from '../config'
 import Avatar from './Avatar'
+import SvgFace from './SvgFace'
 
-// Drawn airliner (or a photo, if PLANE_IMAGE is set in config) with the two
-// flyers as photo bubbles above it.
+// Cartoony airliner facing RIGHT (toward Nice), contrail trailing left.
+// The two flyers look out of the big windows — friends[0] (Zanen) up front.
+// Set PLANE_IMAGE in config to swap the drawing for a picture.
+
+const SEATS = [
+  { cx: 152, cy: 55 }, // front window
+  { cx: 124, cy: 55 }, // rear window
+]
+
 export default function Plane({ friends = [] }) {
   const flyers = friends.filter(Boolean)
   const label = `Vliegtuig met ${flyers.map((f) => f.alt).join(', ')}`
 
+  if (PLANE_IMAGE) {
+    return (
+      <div className="plane">
+        <div className="crew plane-crew">
+          {flyers.map((f, i) => (
+            <Avatar key={i} photo={f.photo} alt={f.alt} focus={f.focus} />
+          ))}
+        </div>
+        <img className="plane-photo" src={PLANE_IMAGE} alt={label} />
+      </div>
+    )
+  }
+
   return (
     <div className="plane">
-      <div className="crew plane-crew">
-        {flyers.map((f, i) => (
-          <Avatar key={i} photo={f.photo} alt={f.alt} focus={f.focus} />
-        ))}
-      </div>
+      <svg className="plane-svg" viewBox="0 0 240 120" role="img" aria-label={label}>
+        <defs>
+          <linearGradient id="pl-body" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#ffffff" />
+            <stop offset="0.6" stopColor="#eef2f6" />
+            <stop offset="1" stopColor="#cfd8e2" />
+          </linearGradient>
+          <linearGradient id="pl-fin" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#5aa7f0" />
+            <stop offset="1" stopColor="#2f6fb8" />
+          </linearGradient>
+        </defs>
 
-      {PLANE_IMAGE ? (
-        <img className="plane-photo" src={PLANE_IMAGE} alt={label} />
-      ) : (
-        <svg className="plane-svg" viewBox="0 0 220 110" role="img" aria-label={label}>
-          <path
-            d="M0 58 Q30 54 60 58 T120 58"
-            stroke="#ffffff"
-            strokeOpacity="0.7"
-            strokeWidth="10"
-            strokeLinecap="round"
-            fill="none"
-          />
-          <path
-            d="M70 44 Q120 32 188 46 Q200 49 200 55 Q200 61 188 64 Q120 78 70 66 Q60 55 70 44 Z"
-            fill="#f2f4f7"
-            stroke="#00000022"
-            strokeWidth="2"
-          />
-          <path d="M188 46 Q202 48 204 55 Q202 62 188 64 Z" fill="#d9dee6" />
-          <path d="M182 48 q10 2 12 7 q-2 5 -12 7 Z" fill="#bfe9f2" />
-          <path d="M70 44 Q58 20 46 20 Q52 40 62 52 Z" fill="#4c9be8" />
-          <path d="M120 60 Q132 92 150 96 Q140 66 138 60 Z" fill="#c3ccd8" />
-          <path d="M78 60 Q84 76 96 80 Q90 64 90 60 Z" fill="#c3ccd8" />
-        </svg>
-      )}
+        {/* contrail trailing left */}
+        <g stroke="#ffffff" strokeLinecap="round" fill="none">
+          <path d="M2 62 Q26 58 50 62 T96 62" strokeOpacity="0.75" strokeWidth="9" />
+          <path d="M10 74 Q30 71 48 74" strokeOpacity="0.5" strokeWidth="6" />
+        </g>
+
+        {/* tail fin */}
+        <path
+          d="M58 56 Q48 22 66 16 Q80 34 88 48 Z"
+          fill="url(#pl-fin)"
+          stroke="#255a94"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
+        {/* horizontal stabiliser */}
+        <path d="M52 60 Q40 52 34 54 Q40 62 54 66 Z" fill="#b9c6d4" stroke="#8a99a9" strokeWidth="2" />
+
+        {/* fuselage — nose right */}
+        <path
+          d="M52 56
+             Q54 44 78 42
+             L168 40
+             Q206 41 220 52
+             Q226 57 220 63
+             Q204 74 168 74
+             L78 72
+             Q54 68 52 56 Z"
+          fill="url(#pl-body)"
+          stroke="#8a99a9"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
+
+        {/* belly stripe */}
+        <path d="M60 66 Q120 74 216 62 Q204 72 168 73 L78 71 Q62 69 60 66 Z" fill="#3f8fd8" opacity="0.85" />
+
+        {/* cockpit windscreen */}
+        <path d="M206 46 q12 3 13 9 q-2 5 -13 6 Z" fill="#28455e" />
+        <path d="M207 48 q7 2 8 6 q-1 3 -8 4 Z" fill="#9fd3ef" />
+
+        {/* small porthole row (behind the big windows) */}
+        {[70, 88, 106].map((x) => (
+          <circle key={x} cx={x} cy="53" r="4" fill="#9fc4e0" stroke="#5f8db4" strokeWidth="1.5" />
+        ))}
+
+        {/* the two flyers at their windows — friends[0] in front */}
+        <SvgFace cx={SEATS[0].cx} cy={SEATS[0].cy} r={9.5} friend={flyers[0]} />
+        <SvgFace cx={SEATS[1].cx} cy={SEATS[1].cy} r={9.5} friend={flyers[1]} />
+
+        {/* wing sweeping toward the viewer */}
+        <path
+          d="M120 62 Q138 92 162 98 Q150 72 146 62 Z"
+          fill="#d7dfe8"
+          stroke="#8a99a9"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
+        {/* engine pod */}
+        <g>
+          <ellipse cx="150" cy="94" rx="13" ry="8" fill="#c3ccd6" stroke="#8a99a9" strokeWidth="2" />
+          <ellipse cx="139" cy="94" rx="3.4" ry="6" fill="#3a4654" />
+        </g>
+      </svg>
     </div>
   )
 }

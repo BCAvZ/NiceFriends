@@ -148,8 +148,8 @@ body {
 
 .plane-track {
   top: 7%;
-  width: 16%;
-  min-width: 104px;
+  width: 18%;
+  min-width: 128px;
   z-index: 1;
   animation: float 5s ease-in-out infinite;
 }
