@@ -7,8 +7,8 @@ import SvgFace from './SvgFace'
 // Set PLANE_IMAGE in config to swap the drawing for a picture.
 
 const SEATS = [
-  { cx: 152, cy: 55 }, // front window
-  { cx: 124, cy: 55 }, // rear window
+  { cx: 154, cy: 55 }, // front window
+  { cx: 120, cy: 55 }, // rear window
 ]
 
 export default function Plane({ friends = [] }) {
@@ -84,13 +84,13 @@ export default function Plane({ friends = [] }) {
         <path d="M207 48 q7 2 8 6 q-1 3 -8 4 Z" fill="#9fd3ef" />
 
         {/* small porthole row (behind the big windows) */}
-        {[70, 88, 106].map((x) => (
+        {[70, 86].map((x) => (
           <circle key={x} cx={x} cy="53" r="4" fill="#9fc4e0" stroke="#5f8db4" strokeWidth="1.5" />
         ))}
 
         {/* the two flyers at their windows — friends[0] in front */}
-        <SvgFace cx={SEATS[0].cx} cy={SEATS[0].cy} r={9.5} friend={flyers[0]} />
-        <SvgFace cx={SEATS[1].cx} cy={SEATS[1].cy} r={9.5} friend={flyers[1]} />
+        <SvgFace cx={SEATS[0].cx} cy={SEATS[0].cy} r={14} friend={flyers[0]} />
+        <SvgFace cx={SEATS[1].cx} cy={SEATS[1].cy} r={14} friend={flyers[1]} />
 
         {/* wing sweeping toward the viewer */}
         <path

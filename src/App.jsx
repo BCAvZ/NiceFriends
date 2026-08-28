@@ -107,10 +107,6 @@ export default function App() {
 
         {allArrived && <div className="party">🎉</div>}
       </div>
-
-      <footer className="foot">
-        Pas <code>src/config.js</code> aan voor je eigen datums en foto's.
-      </footer>
     </div>
   )
 }
