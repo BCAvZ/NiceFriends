@@ -25,9 +25,9 @@ export const FRIENDS = {
 export const CAR_CREW = [1, 2, 3] // Michael, Dylan, Jason in the Tesla
 export const PLANE_CREW = [4, 5] // Zanen, Koopie in the plane, further back
 
-// Scene artwork.
-export const CITY_IMAGE = '/img/nice.jpg' // photo panel on the right
-export const CAR_IMAGE = '/img/tesla.jpg' // shown as a photo card on the road
-// Drop in a watermark-free (ideally transparent) plane PNG and set its path
-// here to replace the drawn plane. Leave null to keep the SVG plane.
-export const PLANE_IMAGE = null
+// Scene artwork. Each defaults to a drawn SVG. Point one at an image
+// (ideally a flat, transparent-background sticker — e.g. a Midjourney export
+// dropped in public/friends/ and run through `npm run optimize`) to swap it in.
+export const CITY_IMAGE = null // e.g. '/img/nice.jpg'
+export const CAR_IMAGE = null // e.g. '/img/tesla.jpg'
+export const PLANE_IMAGE = null // e.g. '/img/plane.png'

@@ -7,6 +7,7 @@ import {
   CITY_IMAGE,
 } from './config'
 import { useJourney } from './useJourney'
+import NiceCity from './components/NiceCity'
 import Car from './components/Car'
 import Plane from './components/Plane'
 
@@ -65,8 +66,14 @@ export default function App() {
 
       <div className={`stage${hasArrived ? ' arrived' : ''}`}>
         <div className="city">
-          <img className="city-photo" src={CITY_IMAGE} alt="De stad Nice aan zee" />
-          <div className="city-fade" />
+          {CITY_IMAGE ? (
+            <>
+              <img className="city-photo" src={CITY_IMAGE} alt="De stad Nice aan zee" />
+              <div className="city-fade" />
+            </>
+          ) : (
+            <NiceCity />
+          )}
         </div>
 
         <div className="track plane-track" style={{ left: `${planeLeft}%` }}>

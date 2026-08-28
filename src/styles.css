@@ -90,14 +90,20 @@ body {
   box-shadow: 0 16px 40px #0b1c3325;
 }
 
-/* City — a real photo panel on the right, feathered into the sky on its left. */
+/* City sits on the right edge of the stage. */
 .city {
   position: absolute;
   top: 0;
   right: 0;
   height: 100%;
-  width: 40%;
+  width: 38%;
   z-index: 4;
+}
+
+.nice-city {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .city-photo {
@@ -155,6 +161,12 @@ body {
   width: 100%;
 }
 
+.car-svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
 .car-photo {
   display: block;
   width: 100%;
@@ -168,6 +180,7 @@ body {
 .plane-photo {
   display: block;
   width: 100%;
+  overflow: visible;
   /* smaller, hazier, desaturated — reads as "further back" */
   opacity: 0.72;
   filter: saturate(0.72) brightness(1.08) blur(0.4px);
