@@ -15,9 +15,9 @@ const SEATS = [
 
 export default function Car({ friends = [] }) {
   const riders = friends.filter(Boolean)
-  const label = `Tesla Model 3 met ${riders.map((f) => f.alt).join(', ')} — ${
-    riders[0]?.alt ?? '?'
-  } rijdt`
+  const label = riders.length
+    ? `Tesla Model 3 met ${riders.map((f) => f.alt).join(', ')} — ${riders[0].alt} rijdt`
+    : 'Tesla Model 3, geparkeerd — iedereen is uitgestapt'
 
   if (CAR_IMAGE) {
     return (

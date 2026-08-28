@@ -11,14 +11,17 @@ import { useJourney } from './useJourney'
 import NiceCity from './components/NiceCity'
 import Car from './components/Car'
 import Plane from './components/Plane'
-import { Flames, Nuke } from './components/CityEffects'
+import { Flames, Nuke, CityCrew } from './components/CityEffects'
 
 // Travel bands, as a % of the stage from the left edge. Start hugging the far
 // left; end at (car) or into (plane) the city on the right.
 const CAR_START = -2
 const CAR_END = 40 // pulls up at the city edge, nose tucking in
 const PLANE_START = -8
-const PLANE_END = 66 // ends hovering over the city
+const PLANE_END = 68 // dives into the city…
+const PLANE_TOP_START = 7 // …descending diagonally from up high
+const PLANE_TOP_END = 34
+const PLANE_MAX_TILT = 16 // nose-down degrees at the very end
 
 const lerp = (from, to, t) => from + (to - from) * t
 
@@ -39,6 +42,8 @@ export default function App() {
 
   const carLeft = lerp(CAR_START, CAR_END, car.progress)
   const planeLeft = lerp(PLANE_START, PLANE_END, plane.progress)
+  const planeTop = lerp(PLANE_TOP_START, PLANE_TOP_END, plane.progress)
+  const planeTilt = PLANE_MAX_TILT * plane.progress
 
   const allArrived = car.hasArrived && plane.hasArrived
   // The overall wait runs until the last group lands.
@@ -95,17 +100,24 @@ export default function App() {
             <NiceCity />
           )}
           {car.hasArrived && <Flames />}
+          {car.hasArrived && <CityCrew friends={carFriends} />}
           {plane.hasArrived && <Nuke />}
         </div>
 
-        <div className="track plane-track" style={{ left: `${planeLeft}%` }}>
-          <Plane friends={planeFriends} />
-        </div>
+        {/* the plane crashes into the city — the explosion takes its place */}
+        {!plane.hasArrived && (
+          <div
+            className="track plane-track"
+            style={{ left: `${planeLeft}%`, top: `${planeTop}%` }}
+          >
+            <Plane friends={planeFriends} tilt={planeTilt} />
+          </div>
+        )}
 
         <div className="road" />
 
         <div className="track car-track" style={{ left: `${carLeft}%` }}>
-          <Car friends={carFriends} />
+          <Car friends={car.hasArrived ? [] : carFriends} />
         </div>
 
         {plane.hasArrived && <div className="nuke-flash" />}

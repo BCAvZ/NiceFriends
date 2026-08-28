@@ -11,13 +11,16 @@ const SEATS = [
   { cx: 120, cy: 55 }, // rear window
 ]
 
-export default function Plane({ friends = [] }) {
+export default function Plane({ friends = [], tilt = 0 }) {
   const flyers = friends.filter(Boolean)
   const label = `Vliegtuig met ${flyers.map((f) => f.alt).join(', ')}`
+  // Nose-down rotation for the diagonal descent; lives here because the
+  // track's float animation owns the outer transform.
+  const dive = { transform: `rotate(${tilt}deg)`, transformOrigin: '55% 50%' }
 
   if (PLANE_IMAGE) {
     return (
-      <div className="plane">
+      <div className="plane" style={dive}>
         <div className="crew plane-crew">
           {flyers.map((f, i) => (
             <Avatar key={i} photo={f.photo} alt={f.alt} focus={f.focus} />
@@ -29,7 +32,7 @@ export default function Plane({ friends = [] }) {
   }
 
   return (
-    <div className="plane">
+    <div className="plane" style={dive}>
       <svg className="plane-svg" viewBox="0 0 240 120" role="img" aria-label={label}>
         <defs>
           <linearGradient id="pl-body" x1="0" y1="0" x2="0" y2="1">

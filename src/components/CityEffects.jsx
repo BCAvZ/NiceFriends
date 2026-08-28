@@ -1,7 +1,27 @@
 // Cartoon end-state mayhem, drawn as overlays that share NiceCity's viewBox so
 // everything lines up with the rooftops regardless of screen size.
+import SvgFace from './SvgFace'
 
 const CITY_VIEWBOX = '0 0 300 320'
+
+// The car crew has arrived and spread out: friends[0] (Michael) climbs the
+// middle tower's dome, friends[1] and [2] (Dylan, Jason) hit the beach.
+export function CityCrew({ friends = [] }) {
+  const [tower, beach1, beach2] = friends
+  return (
+    <svg
+      className="city-overlay"
+      viewBox={CITY_VIEWBOX}
+      preserveAspectRatio="xMidYMid slice"
+      role="img"
+      aria-label={`${friends.map((f) => f?.alt).filter(Boolean).join(', ')} in Nice`}
+    >
+      <SvgFace cx={129} cy={50} r={11} friend={tower} />
+      <SvgFace cx={136} cy={221} r={10} friend={beach1} />
+      <SvgFace cx={166} cy={221} r={10} friend={beach2} />
+    </svg>
+  )
+}
 
 function Flame({ x, y, s = 1, delayClass = '' }) {
   return (
