@@ -244,13 +244,75 @@ body {
   color: #5a6b7a;
 }
 
-.party {
+/* ── End-state mayhem ────────────────────────────────────────────────────── */
+.city-overlay {
   position: absolute;
-  right: 14%;
-  top: 12%;
-  font-size: clamp(2rem, 8vw, 4rem);
-  animation: pop 1.6s ease-in-out infinite;
-  z-index: 5;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* clip exactly like the NiceCity svg so overlays never escape the panel */
+  overflow: hidden;
+}
+
+.flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: flicker 700ms ease-in-out infinite alternate;
+}
+
+.flame.f2 { animation-delay: 140ms; }
+.flame.f3 { animation-delay: 280ms; }
+.flame.f4 { animation-delay: 90ms; }
+.flame.f5 { animation-delay: 210ms; }
+
+@keyframes flicker {
+  from { transform: scaleY(0.94) skewX(-2deg); }
+  to { transform: scaleY(1.14) skewX(3deg); }
+}
+
+.mushroom {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation:
+    nuke-grow 1s cubic-bezier(0.2, 1.35, 0.4, 1) both,
+    billow 3.6s ease-in-out 1s infinite alternate;
+}
+
+@keyframes nuke-grow {
+  from { transform: scale(0.08); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes billow {
+  from { transform: scale(1); }
+  to { transform: scale(1.045); }
+}
+
+.nuke-flash {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  z-index: 6;
+  pointer-events: none;
+  animation: flashout 1.1s ease-out forwards;
+}
+
+@keyframes flashout {
+  from { opacity: 0.95; }
+  to { opacity: 0; }
+}
+
+.stage.boom {
+  animation: shake 650ms 200ms;
+}
+
+@keyframes shake {
+  10% { transform: translate(-5px, 3px); }
+  30% { transform: translate(4px, -3px); }
+  50% { transform: translate(-3px, 2px); }
+  70% { transform: translate(3px, 2px); }
+  90% { transform: translate(-1px, -1px); }
 }
 
 .hud-sep {
@@ -278,20 +340,13 @@ body {
   }
 }
 
-@keyframes pop {
-  0%,
-  100% {
-    transform: scale(1) rotate(-6deg);
-  }
-  50% {
-    transform: scale(1.15) rotate(6deg);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .car-track,
   .plane-track,
-  .party {
+  .flame,
+  .mushroom,
+  .nuke-flash,
+  .stage.boom {
     animation: none;
   }
   .track,

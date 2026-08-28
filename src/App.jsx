@@ -11,6 +11,7 @@ import { useJourney } from './useJourney'
 import NiceCity from './components/NiceCity'
 import Car from './components/Car'
 import Plane from './components/Plane'
+import { Flames, Nuke } from './components/CityEffects'
 
 // Travel bands, as a % of the stage from the left edge. Start hugging the far
 // left; end at (car) or into (plane) the city on the right.
@@ -50,7 +51,7 @@ export default function App() {
         <h1>Op weg naar Nice</h1>
 
         {allArrived ? (
-          <p className="hud-big">Iedereen is in Nice! 🎉🏖️</p>
+          <p className="hud-big">Iedereen is in Nice! 🎉🔥💥</p>
         ) : (
           <p className="hud-big">
             🚗{' '}
@@ -83,7 +84,7 @@ export default function App() {
         </p>
       </header>
 
-      <div className="stage">
+      <div className={`stage${plane.hasArrived ? ' boom' : ''}`}>
         <div className="city">
           {CITY_IMAGE ? (
             <>
@@ -93,6 +94,8 @@ export default function App() {
           ) : (
             <NiceCity />
           )}
+          {car.hasArrived && <Flames />}
+          {plane.hasArrived && <Nuke />}
         </div>
 
         <div className="track plane-track" style={{ left: `${planeLeft}%` }}>
@@ -105,7 +108,7 @@ export default function App() {
           <Car friends={carFriends} />
         </div>
 
-        {allArrived && <div className="party">🎉</div>}
+        {plane.hasArrived && <div className="nuke-flash" />}
       </div>
     </div>
   )
