@@ -37,9 +37,9 @@ export default function Car({ friends = [] }) {
       <svg className="car-svg" viewBox="0 0 260 132" role="img" aria-label={label}>
         <defs>
           <linearGradient id="car-body" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#ff6d66" />
-            <stop offset="0.45" stopColor="#e5343c" />
-            <stop offset="1" stopColor="#b21e28" />
+            <stop offset="0" stopColor="#ffffff" />
+            <stop offset="0.5" stopColor="#eef1f5" />
+            <stop offset="1" stopColor="#c8d0d9" />
           </linearGradient>
           <linearGradient id="car-glass" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#3d4c5e" />
@@ -79,7 +79,7 @@ export default function Car({ friends = [] }) {
              L34 104
              C26 104 22 102 20 96 Z"
           fill="url(#car-body)"
-          stroke="#8f1a20"
+          stroke="#7a8694"
           strokeWidth="3.5"
           strokeLinejoin="round"
         />
@@ -98,7 +98,7 @@ export default function Car({ friends = [] }) {
              L160 62
              C138 50 92 52 72 64 Z"
           fill="url(#car-glass)"
-          stroke="#8f1a20"
+          stroke="#7a8694"
           strokeWidth="3"
           strokeLinejoin="round"
         />
@@ -121,16 +121,16 @@ export default function Car({ friends = [] }) {
 
         {/* B-pillar + beltline + flush handle */}
         <line x1="132" y1="40" x2="136" y2="64" stroke="#10151b" strokeWidth="3" />
-        <line x1="40" y1="72" x2="230" y2="70" stroke="#8f1a2066" strokeWidth="2" />
-        <rect x="138" y="66" width="15" height="3.4" rx="1.7" fill="#f4bfc1" />
-        <rect x="96" y="66" width="15" height="3.4" rx="1.7" fill="#f4bfc1" />
+        <line x1="40" y1="72" x2="230" y2="70" stroke="#7a869466" strokeWidth="2" />
+        <rect x="138" y="66" width="15" height="3.4" rx="1.7" fill="#aeb7c1" />
+        <rect x="96" y="66" width="15" height="3.4" rx="1.7" fill="#aeb7c1" />
 
         {/* side mirror */}
-        <path d="M164 52 q9 -6 12 -1 q-1 6 -9 6 Z" fill="#b21e28" stroke="#8f1a20" strokeWidth="2" />
+        <path d="M164 52 q9 -6 12 -1 q-1 6 -9 6 Z" fill="#eef1f5" stroke="#7a8694" strokeWidth="2" />
 
         {/* headlight (front) + tail light (rear) */}
         <path d="M236 74 q11 2 12 9 q-2 6 -13 5 Z" fill="#fff3c4" stroke="#c9a02c" strokeWidth="2" />
-        <path d="M21 76 q-8 1 -9 7 q2 5 10 4 Z" fill="#ff7b74" stroke="#8f1a20" strokeWidth="2" />
+        <path d="M21 76 q-8 1 -9 7 q2 5 10 4 Z" fill="#ff7b74" stroke="#7a8694" strokeWidth="2" />
 
         {/* front intake */}
         <rect x="216" y="96" width="26" height="4" rx="2" fill="#00000033" />
@@ -152,8 +152,8 @@ export default function Car({ friends = [] }) {
           </g>
         ))}
         {/* wheel arches */}
-        <path d="M48 102 a20 20 0 0 1 40 0" fill="none" stroke="#8f1a20" strokeWidth="4" />
-        <path d="M178 102 a20 20 0 0 1 40 0" fill="none" stroke="#8f1a20" strokeWidth="4" />
+        <path d="M48 102 a20 20 0 0 1 40 0" fill="none" stroke="#7a8694" strokeWidth="4" />
+        <path d="M178 102 a20 20 0 0 1 40 0" fill="none" stroke="#7a8694" strokeWidth="4" />
       </svg>
     </div>
   )
