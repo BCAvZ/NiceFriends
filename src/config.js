@@ -1,11 +1,11 @@
 // ── Edit these to fit your trip ────────────────────────────────────────────────
 
-// The day the "journey" starts (everyone is at the far edge on this date).
-// Tip: set it to whenever you spun this site up.
-export const START_DATE = '2026-08-01'
+// The day the "journey" starts (everyone is at the far left on this date).
+export const START_DATE = '2026-08-28'
 
-// The day you actually arrive in Nice (everyone reaches the city on this date).
-export const VACATION_DATE = '2026-10-15'
+// Arrival days in Nice — the car and the plane each land on their own date.
+export const CAR_ARRIVAL_DATE = '2026-09-20'
+export const PLANE_ARRIVAL_DATE = '2026-09-24'
 
 // The five friends.
 //   photo — image URL. Web-sized copies live in /img (run `npm run optimize`

@@ -53,10 +53,10 @@ body {
 }
 
 .count {
-  font-size: clamp(1.8rem, 6vw, 3rem);
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
   font-weight: 800;
   color: #e5484d;
-  margin-right: 4px;
+  margin: 0 5px 0 2px;
 }
 
 .hud-sub {
@@ -150,7 +150,7 @@ body {
   top: 7%;
   width: 18%;
   min-width: 128px;
-  z-index: 1;
+  z-index: 5; /* above the city — it flies over Nice on arrival */
   animation: float 5s ease-in-out infinite;
 }
 
@@ -253,12 +253,9 @@ body {
   z-index: 5;
 }
 
-.stage.arrived .car-track {
-  left: 44% !important;
-}
-
-.stage.arrived .plane-track {
-  left: 32% !important;
+.hud-sep {
+  margin: 0 6px;
+  color: #9aa8b5;
 }
 
 @keyframes bob {

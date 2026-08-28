@@ -1,6 +1,7 @@
 import {
   START_DATE,
-  VACATION_DATE,
+  CAR_ARRIVAL_DATE,
+  PLANE_ARRIVAL_DATE,
   FRIENDS,
   CAR_CREW,
   PLANE_CREW,
@@ -11,12 +12,12 @@ import NiceCity from './components/NiceCity'
 import Car from './components/Car'
 import Plane from './components/Plane'
 
-// Where each vehicle sits along the stage, as a % from the left edge.
-// The plane starts and ends further left so it always reads as "further back".
-const CAR_START = 1
-const CAR_END = 58 // stops just short of the city
-const PLANE_START = -16
-const PLANE_END = 44
+// Travel bands, as a % of the stage from the left edge. Start hugging the far
+// left; end at (car) or into (plane) the city on the right.
+const CAR_START = -2
+const CAR_END = 40 // pulls up at the city edge, nose tucking in
+const PLANE_START = -8
+const PLANE_END = 66 // ends hovering over the city
 
 const lerp = (from, to, t) => from + (to - from) * t
 
@@ -25,46 +26,64 @@ function formatDate(value) {
   return new Date(y, m - 1, d).toLocaleDateString('nl-NL', {
     day: 'numeric',
     month: 'long',
-    year: 'numeric',
   })
 }
 
 export default function App() {
-  const { progress, daysLeft, totalDays, elapsedDays, hasStarted, hasArrived } =
-    useJourney(START_DATE, VACATION_DATE)
+  const car = useJourney(START_DATE, CAR_ARRIVAL_DATE)
+  const plane = useJourney(START_DATE, PLANE_ARRIVAL_DATE)
 
   const carFriends = CAR_CREW.map((id) => FRIENDS[id])
   const planeFriends = PLANE_CREW.map((id) => FRIENDS[id])
 
-  const carLeft = lerp(CAR_START, CAR_END, progress)
-  const planeLeft = lerp(PLANE_START, PLANE_END, progress)
-  const dayNumber = Math.min(Math.max(elapsedDays, 0), totalDays)
+  const carLeft = lerp(CAR_START, CAR_END, car.progress)
+  const planeLeft = lerp(PLANE_START, PLANE_END, plane.progress)
+
+  const allArrived = car.hasArrived && plane.hasArrived
+  // The overall wait runs until the last group lands.
+  const overall = plane
+  const dayNumber = Math.min(Math.max(overall.elapsedDays, 0), overall.totalDays)
 
   return (
     <div className="page">
       <header className="hud">
         <h1>Op weg naar Nice</h1>
 
-        {hasArrived ? (
+        {allArrived ? (
           <p className="hud-big">Iedereen is in Nice! 🎉🏖️</p>
-        ) : hasStarted ? (
-          <p className="hud-big">
-            <span className="count">{daysLeft}</span>
-            {daysLeft === 1 ? ' dag' : ' dagen'} te gaan
-          </p>
         ) : (
-          <p className="hud-big">De reis begint op {formatDate(START_DATE)}</p>
+          <p className="hud-big">
+            🚗{' '}
+            {car.hasArrived ? (
+              <strong>in Nice!</strong>
+            ) : (
+              <>
+                <span className="count">{car.daysLeft}</span>
+                {car.daysLeft === 1 ? 'dag' : 'dagen'}
+              </>
+            )}
+            <span className="hud-sep"> · </span>✈️{' '}
+            {plane.hasArrived ? (
+              <strong>in Nice!</strong>
+            ) : (
+              <>
+                <span className="count">{plane.daysLeft}</span>
+                {plane.daysLeft === 1 ? 'dag' : 'dagen'}
+              </>
+            )}
+          </p>
         )}
 
         <div className="progress">
-          <div className="progress-fill" style={{ width: `${progress * 100}%` }} />
+          <div className="progress-fill" style={{ width: `${overall.progress * 100}%` }} />
         </div>
         <p className="hud-sub">
-          Dag {dayNumber} van {totalDays} · aankomst {formatDate(VACATION_DATE)}
+          Dag {dayNumber} van {overall.totalDays} · 🚗 {formatDate(CAR_ARRIVAL_DATE)} · ✈️{' '}
+          {formatDate(PLANE_ARRIVAL_DATE)}
         </p>
       </header>
 
-      <div className={`stage${hasArrived ? ' arrived' : ''}`}>
+      <div className="stage">
         <div className="city">
           {CITY_IMAGE ? (
             <>
@@ -86,7 +105,7 @@ export default function App() {
           <Car friends={carFriends} />
         </div>
 
-        {hasArrived && <div className="party">🎉</div>}
+        {allArrived && <div className="party">🎉</div>}
       </div>
 
       <footer className="foot">
