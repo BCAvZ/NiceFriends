@@ -18,7 +18,7 @@ export const FRIENDS = {
   2: { alt: 'Dylan', photo: '/img/dylan.jpg', focus: 'center 45%' },
   3: { alt: 'Jason', photo: '/img/jason.jpg', focus: 'center 33%' },
   4: { alt: 'Zanen', photo: '/img/zanen.jpg', focus: 'center 40%' },
-  5: { alt: 'Koopie', photo: '/img/koopie.jpg', focus: 'center 45%' },
+  5: { alt: 'Koopie', photo: '/img/koopie.jpg', focus: 'center 35%' },
 }
 
 // Who rides where — friend ids from FRIENDS above.
