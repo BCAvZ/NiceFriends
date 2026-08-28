@@ -26,16 +26,22 @@ Everything you'd want to change lives in [`src/config.js`](src/config.js):
 | --- | --- |
 | `START_DATE` | The day the journey begins (everyone at the far edge). |
 | `VACATION_DATE` | Arrival day in Nice (everyone reaches the city). |
-| `FRIENDS` | The five friends. Each has a `photo` (image URL) and `alt` text. |
+| `FRIENDS` | The five friends. Each has a `photo`, `alt` text and a `focus` (crop position). |
 | `CAR_CREW` / `PLANE_CREW` | Which friend ids ride in the car vs. the plane. |
+| `CITY_IMAGE` / `CAR_IMAGE` | Scene photos (the Nice panel, the car card). |
+| `PLANE_IMAGE` | Set to a PNG path to replace the drawn plane; `null` keeps the SVG. |
 
-### Friend photos
+### Images
 
-The five faces are `<image>` elements. Placeholder pictures live in
-[`public/friends/`](public/friends) as `1.svg` … `5.svg`, each with an `alt`
-label from `config.js`. Drop real photos into that folder (keep the filenames,
-or point `photo` at any other URL). The `alt` text is shown if an image fails to
-load and is read aloud by screen readers.
+Full-size originals go in [`public/friends/`](public/friends); the app loads
+downscaled copies from `public/img/`. After adding or replacing any original:
+
+```bash
+npm run optimize
+```
+
+See [`public/friends/README.md`](public/friends/README.md) for the naming rules
+and how to reframe a face with `focus`.
 
 ## How it works
 
@@ -45,8 +51,11 @@ load and is read aloud by screen readers.
 - [`src/App.jsx`](src/App.jsx) maps that progress onto each vehicle's horizontal
   position. The plane's travel band is offset further left so it always reads as
   "further back".
-- The city, car, plane and friend avatars are hand-drawn inline SVG
-  ([`src/components/`](src/components)). No image assets, no backend.
+- The city and car are photos; the friend faces are circular-cropped `<img>`
+  bubbles above each vehicle; the plane is inline SVG until a clean image is
+  supplied ([`src/components/`](src/components)).
+- [`scripts/optimize-images.mjs`](scripts/optimize-images.mjs) (run via
+  `npm run optimize`) resizes the originals into `public/img/`. No backend.
 
 ## Tech
 

@@ -1,15 +1,21 @@
-import { START_DATE, VACATION_DATE, FRIENDS, CAR_CREW, PLANE_CREW } from './config'
+import {
+  START_DATE,
+  VACATION_DATE,
+  FRIENDS,
+  CAR_CREW,
+  PLANE_CREW,
+  CITY_IMAGE,
+} from './config'
 import { useJourney } from './useJourney'
-import NiceCity from './components/NiceCity'
 import Car from './components/Car'
 import Plane from './components/Plane'
 
 // Where each vehicle sits along the stage, as a % from the left edge.
 // The plane starts and ends further left so it always reads as "further back".
 const CAR_START = 1
-const CAR_END = 60 // stops just short of the city
+const CAR_END = 58 // stops just short of the city
 const PLANE_START = -16
-const PLANE_END = 46
+const PLANE_END = 44
 
 const lerp = (from, to, t) => from + (to - from) * t
 
@@ -59,7 +65,8 @@ export default function App() {
 
       <div className={`stage${hasArrived ? ' arrived' : ''}`}>
         <div className="city">
-          <NiceCity />
+          <img className="city-photo" src={CITY_IMAGE} alt="De stad Nice aan zee" />
+          <div className="city-fade" />
         </div>
 
         <div className="track plane-track" style={{ left: `${planeLeft}%` }}>

@@ -86,23 +86,33 @@ body {
   aspect-ratio: 16 / 9;
   border-radius: 20px;
   overflow: hidden;
-  background: linear-gradient(180deg, #bfe3ff 0%, #dff1ff 62%, #f4ecd6 62%, #f4ecd6 100%);
+  background: linear-gradient(180deg, #bfe3ff 0%, #dff1ff 60%, #efe4c8 60%, #efe4c8 100%);
   box-shadow: 0 16px 40px #0b1c3325;
 }
 
+/* City — a real photo panel on the right, feathered into the sky on its left. */
 .city {
   position: absolute;
   top: 0;
   right: 0;
   height: 100%;
-  width: 36%;
+  width: 40%;
   z-index: 4;
 }
 
-.nice-city {
+.city-photo {
   width: 100%;
   height: 100%;
+  object-fit: cover;
   display: block;
+}
+
+.city-fade {
+  position: absolute;
+  inset: 0 auto 0 -1px;
+  width: 42%;
+  background: linear-gradient(90deg, #d3ebfc 0%, #d6ecfb 22%, #d9edf9aa 55%, transparent 100%);
+  pointer-events: none;
 }
 
 .road {
@@ -113,6 +123,7 @@ body {
   height: 6%;
   background: #6b7280;
   border-top: 3px dashed #ffffffaa;
+  z-index: 2;
 }
 
 .track {
@@ -122,54 +133,119 @@ body {
 }
 
 .car-track {
-  bottom: 7%;
-  width: 22%;
-  min-width: 130px;
+  bottom: 6%;
+  width: 26%;
+  min-width: 168px;
   z-index: 3;
   animation: bob 3.2s ease-in-out infinite;
 }
 
-/* Smaller, higher, hazier and behind the road — reads as "further back". */
 .plane-track {
-  top: 6%;
-  width: 15%;
-  min-width: 96px;
+  top: 7%;
+  width: 16%;
+  min-width: 104px;
   z-index: 1;
-  opacity: 0.68;
-  filter: saturate(0.72) brightness(1.08) blur(0.4px);
   animation: float 5s ease-in-out infinite;
 }
 
-.road {
+/* ── Vehicles ────────────────────────────────────────────────────────────── */
+.car,
+.plane {
+  position: relative;
+  width: 100%;
+}
+
+.car-photo {
+  display: block;
+  width: 100%;
+  border-radius: 14px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 8px 18px #0b1c3340;
+  transform: rotate(-1deg);
+}
+
+.plane-svg,
+.plane-photo {
+  display: block;
+  width: 100%;
+  /* smaller, hazier, desaturated — reads as "further back" */
+  opacity: 0.72;
+  filter: saturate(0.72) brightness(1.08) blur(0.4px);
+}
+
+/* Crew photo bubbles sitting above each vehicle. */
+.crew {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
   z-index: 2;
 }
 
-.vehicle {
-  width: 100%;
-  height: auto;
-  display: block;
-  overflow: visible;
+.car-crew {
+  top: -26%;
+  gap: 6%;
 }
 
-.vehicle-names {
-  font: 600 13px 'Segoe UI', system-ui, sans-serif;
-  fill: #1f2a37;
+.plane-crew {
+  top: -34%;
+  gap: 10%;
+  opacity: 0.92;
+}
+
+.avatar {
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ffffff;
+  box-shadow: 0 3px 8px #0b1c3345;
+  background: #dce6ee;
+  flex: 0 0 auto;
+}
+
+.car-crew .avatar {
+  width: clamp(30px, 4.4vw, 46px);
+  height: clamp(30px, 4.4vw, 46px);
+}
+
+.plane-crew .avatar {
+  width: clamp(20px, 3vw, 30px);
+  height: clamp(20px, 3vw, 30px);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-weight: 700;
+  color: #5a6b7a;
 }
 
 .party {
   position: absolute;
-  right: 12%;
-  top: 14%;
+  right: 14%;
+  top: 12%;
   font-size: clamp(2rem, 8vw, 4rem);
   animation: pop 1.6s ease-in-out infinite;
+  z-index: 5;
 }
 
 .stage.arrived .car-track {
-  left: 46% !important;
+  left: 44% !important;
 }
 
 .stage.arrived .plane-track {
-  left: 34% !important;
+  left: 32% !important;
 }
 
 @keyframes bob {

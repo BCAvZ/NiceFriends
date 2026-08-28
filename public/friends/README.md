@@ -1,32 +1,44 @@
-# Friend photos — drop your pictures here
+# Source images — drop your pictures here
 
-This folder is the drop zone for the five friends' faces.
+This folder holds the **full-size originals**. The app never loads these
+directly — it loads web-sized copies from [`../img/`](../img) that are generated
+from whatever is in here.
 
-## How to add real photos
+## Workflow
 
-1. Drop image files into this folder (`public/friends/`).
-   - Any web format works: `.jpg`, `.jpeg`, `.png`, `.webp`, `.gif`, `.svg`.
-   - Roughly square crops look best (they're shown as circles).
-2. Open [`../../src/config.js`](../../src/config.js) and point each friend's
-   `photo` at your file. The path is relative to this `public/` folder and must
-   start with `/friends/`:
+1. Drop image files into this folder. Recognised names (any extension —
+   `.jpg`, `.png`, `.webp`, …):
 
-   ```js
-   export const FRIENDS = {
-     1: { alt: 'Anna',  photo: '/friends/anna.jpg' },
-     2: { alt: 'Bart',  photo: '/friends/bart.jpg' },
-     3: { alt: 'Chris', photo: '/friends/chris.png' },
-     4: { alt: 'Dani',  photo: '/friends/dani.webp' },
-     5: { alt: 'Eef',   photo: '/friends/eef.jpg' },
-   }
+   | file | used for |
+   | --- | --- |
+   | `Michael` `Dylan` `Jason` `Zanen` `Koopie` | the five friends' faces |
+   | `Nice` | the city photo panel on the right |
+   | `Tesla` | the car photo card on the road |
+
+2. Regenerate the web-sized copies:
+
+   ```bash
+   npm run optimize
    ```
 
-3. `alt` is the text shown if the image fails to load and read aloud by screen
-   readers — set it to the person's name.
+   This writes `../img/michael.jpg`, `../img/nice.jpg`, etc. (downscaled and
+   compressed — a 12 MB photo becomes ~280 KB).
 
-The shipped `1.svg` … `5.svg` are just numbered placeholders. You can overwrite
-them (keep the names and you don't need to touch `config.js`) or add your own
-files and repoint the paths.
+3. If you add a friend photo under a **new** name, also update
+   [`../../src/config.js`](../../src/config.js): set that friend's `photo` to
+   `/img/<name>.jpg`, their `alt` to the person's name, and add a recipe line in
+   [`../../scripts/optimize-images.mjs`](../../scripts/optimize-images.mjs).
 
-Anything in `public/` is served from the site root as-is and is **not** bundled
-or optimised by Vite.
+## Framing a face
+
+Each friend has a `focus` value in `config.js` (a CSS `object-position`). The
+photos are circular crops, so if someone's face is cut off, nudge their `focus`
+percentage — smaller shows more of the top, larger shows more of the bottom.
+
+## Notes on the current images
+
+- `Dylan` and `Koopie` are currently the **same photo** — replace `Koopie`
+  with a real one.
+- The drawn plane is still an SVG. To use a picture instead, drop a
+  **watermark-free** (ideally transparent-background) plane PNG in here, add an
+  optimize recipe for it, and set `PLANE_IMAGE` in `config.js`.
