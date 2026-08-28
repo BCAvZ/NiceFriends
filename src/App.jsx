@@ -21,7 +21,7 @@ const PLANE_START = -8
 const PLANE_END = 68 // dives into the city…
 const PLANE_TOP_START = 7 // …descending diagonally from up high
 const PLANE_TOP_END = 34
-const PLANE_MAX_TILT = 16 // nose-down degrees at the very end
+const PLANE_TILT = 14 // constant nose-down angle, matching the descent
 
 const lerp = (from, to, t) => from + (to - from) * t
 
@@ -43,7 +43,7 @@ export default function App() {
   const carLeft = lerp(CAR_START, CAR_END, car.progress)
   const planeLeft = lerp(PLANE_START, PLANE_END, plane.progress)
   const planeTop = lerp(PLANE_TOP_START, PLANE_TOP_END, plane.progress)
-  const planeTilt = PLANE_MAX_TILT * plane.progress
+  const planeTilt = PLANE_TILT
 
   const allArrived = car.hasArrived && plane.hasArrived
   // The overall wait runs until the last group lands.
