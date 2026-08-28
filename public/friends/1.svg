@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Vriend 1 placeholder">
+  <rect width="200" height="200" fill="#4c9be8"/>
+  <circle cx="100" cy="78" r="34" fill="#ffffffcc"/>
+  <path d="M40 178c0-33 27-56 60-56s60 23 60 56z" fill="#ffffffcc"/>
+  <text x="100" y="180" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="48" font-weight="700" fill="#ffffff">1</text>
+</svg>
