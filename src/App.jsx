@@ -7,6 +7,7 @@ import {
   PLANE_CREW,
   CITY_IMAGE,
 } from './config'
+import { useSyncExternalStore } from 'react'
 import { useJourney } from './useJourney'
 import NiceCity from './components/NiceCity'
 import Car from './components/Car'
@@ -14,14 +15,39 @@ import Plane from './components/Plane'
 import { Flames, Nuke, CityCrew } from './components/CityEffects'
 
 // Travel bands, as a % of the stage from the left edge. Start hugging the far
-// left; end at (car) or into (plane) the city on the right.
-const CAR_START = -2
-const CAR_END = 40 // pulls up at the city edge, nose tucking in
-const PLANE_START = -8
-const PLANE_END = 68 // dives into the city…
+// left; end at (car) or into (plane) the city on the right. On narrow (phone)
+// screens the vehicles are proportionally wider — see styles.css — so their
+// bands shift to keep the same landing spots.
+const BANDS = {
+  wide: {
+    carStart: -2,
+    carEnd: 40, // pulls up at the city edge, nose tucking in
+    planeStart: -8,
+    planeEnd: 68, // dives into the city…
+  },
+  narrow: {
+    carStart: -4,
+    carEnd: 22,
+    planeStart: -14,
+    planeEnd: 58,
+  },
+}
 const PLANE_TOP_START = 7 // …descending diagonally from up high
 const PLANE_TOP_END = 34
 const PLANE_TILT = 14 // constant nose-down angle, matching the descent
+
+const NARROW_QUERY = '(max-width: 640px)'
+
+function useIsNarrow() {
+  return useSyncExternalStore(
+    (onChange) => {
+      const mq = window.matchMedia(NARROW_QUERY)
+      mq.addEventListener('change', onChange)
+      return () => mq.removeEventListener('change', onChange)
+    },
+    () => window.matchMedia(NARROW_QUERY).matches,
+  )
+}
 
 const lerp = (from, to, t) => from + (to - from) * t
 
@@ -40,8 +66,9 @@ export default function App() {
   const carFriends = CAR_CREW.map((id) => FRIENDS[id])
   const planeFriends = PLANE_CREW.map((id) => FRIENDS[id])
 
-  const carLeft = lerp(CAR_START, CAR_END, car.progress)
-  const planeLeft = lerp(PLANE_START, PLANE_END, plane.progress)
+  const bands = useIsNarrow() ? BANDS.narrow : BANDS.wide
+  const carLeft = lerp(bands.carStart, bands.carEnd, car.progress)
+  const planeLeft = lerp(bands.planeStart, bands.planeEnd, plane.progress)
   const planeTop = lerp(PLANE_TOP_START, PLANE_TOP_END, plane.progress)
   const planeTilt = PLANE_TILT
 

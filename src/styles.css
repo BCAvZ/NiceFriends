@@ -357,6 +357,32 @@ body {
   }
 }
 
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .stage {
+    /* a 16:9 strip is too shallow on a portrait phone — go square */
+    aspect-ratio: 1 / 1;
+  }
+
+  .car-track {
+    width: 44%;
+    min-width: 0;
+  }
+
+  .plane-track {
+    width: 30%;
+    min-width: 0;
+  }
+
+  .hud {
+    border-radius: 14px;
+  }
+
+  .hud-sub {
+    font-size: 0.8rem;
+  }
+}
+
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 .foot {
   text-align: center;
